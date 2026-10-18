@@ -1,0 +1,197 @@
+<title>AI Augmented Supply Chain Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: single centered column header over a 3×3 card grid that drops to 2 then 1 column. */
+  :root {
+    --bg: #f3f5f6;
+    --surface: #ffffff;
+    --ink: #142029;
+    --muted: #55636d;
+    --line: #dbe1e5;
+    --accent: #1d5b78;
+
+    --tag-productivity-bg: #e3eef6; --tag-productivity-fg: #1d4f6e;
+    --tag-discovery-bg:    #f3ebdc; --tag-discovery-fg:    #7a5212;
+    --tag-decision-bg:     #e6f0e6; --tag-decision-fg:     #2f5f33;
+    --tag-scale-bg:        #ece8f3; --tag-scale-fg:        #4f3f78;
+
+    --font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f161b; --surface: #162028; --ink: #e6ecef; --muted: #9aa8b1; --line: #26333c; --accent: #7cc0df;
+      --tag-productivity-bg: #18303f; --tag-productivity-fg: #9fd0ec;
+      --tag-discovery-bg:    #352a17; --tag-discovery-fg:    #e8c48a;
+      --tag-decision-bg:     #1c3220; --tag-decision-fg:     #a8d6aa;
+      --tag-scale-bg:        #2a2440; --tag-scale-fg:        #c7b9ee;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f161b; --surface: #162028; --ink: #e6ecef; --muted: #9aa8b1; --line: #26333c; --accent: #7cc0df;
+    --tag-productivity-bg: #18303f; --tag-productivity-fg: #9fd0ec;
+    --tag-discovery-bg:    #352a17; --tag-discovery-fg:    #e8c48a;
+    --tag-decision-bg:     #1c3220; --tag-decision-fg:     #a8d6aa;
+    --tag-scale-bg:        #2a2440; --tag-scale-fg:        #c7b9ee;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    padding-inline: 16px;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .wrap { max-width: 72rem; margin-inline: auto; display: grid; gap: clamp(2.5rem, 5vw, 3.5rem); }
+
+  header { display: grid; gap: 1rem; max-width: 46rem; }
+  h1 {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 750;
+    font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .byline {
+    display: flex; flex-wrap: wrap; gap: 0.25rem 1rem;
+    font-size: 1rem; color: var(--muted); margin: 0;
+  }
+  .byline .name { color: var(--ink); font-weight: 500; }
+  .byline a { color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+  .byline a:hover { color: var(--accent); }
+  .intro { font-size: 1.125rem; max-width: 40rem; margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .intro a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .intro a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  .cards {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.4rem 1.4rem 1.5rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    min-width: 0;
+  }
+  .tag {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+  }
+  .tag.productivity { background: var(--tag-productivity-bg); color: var(--tag-productivity-fg); }
+  .tag.discovery    { background: var(--tag-discovery-bg);    color: var(--tag-discovery-fg); }
+  .tag.decision     { background: var(--tag-decision-bg);     color: var(--tag-decision-fg); }
+  .tag.scale        { background: var(--tag-scale-bg);        color: var(--tag-scale-fg); }
+  .card h2 {
+    font-family: var(--font-display);
+    font-stretch: 90%;
+    font-weight: 650;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .card p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.6; font-variant-numeric: tabular-nums; }
+  .deck {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .deck::after { content: " \2192"; }
+  .deck:hover { text-decoration: underline; text-underline-offset: 3px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>AI Augmented Supply Chain Management</h1>
+    <p class="byline">
+      <span class="name">Brittney Logan</span>
+      <a href="mailto:brittneyvlogan@gmail.com">brittneyvlogan@gmail.com</a>
+    </p>
+    <p class="intro">Nine real supply chain problems I learned to solve with AI — from my <a href="https://www.rhsmith.umd.edu/programs/business-masters/academics/supply-chain-management" target="_blank" rel="noopener">Master's in Supply Chain Management at the University of Maryland's Robert H. Smith School of Business</a>.</p>
+  </header>
+
+  <ul class="cards">
+    <li class="card">
+      <span class="tag productivity">Productivity gain</span>
+      <h2>Transportation Mode Selection</h2>
+      <p>Evaluated 6 lanes × 3 modes = 18 full cost-and-deadline scenarios in one conversation, instead of manually calculating each one by hand.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1KSiBbvPqG_Ec8Awuz3aRT6D8Bxf0v22Q/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag discovery">Quantitative discovery</span>
+      <h2>Warehouse Operations Dashboard</h2>
+      <p>Warehouse D handles 44% of total order volume but posts the worst on-time rate in the company at 36.4% — a gap invisible in the raw, uncleaned export.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1O3ItVu0SWazrAjFBeLuPNXlzMsSo818B/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag decision">Decision-driving</span>
+      <h2>Bottlenecks and Capacity Investment</h2>
+      <p>Sequencing a tight budget correctly (cheapest bottleneck first) instead of naively (biggest bottleneck first) captured about 5% more added throughput (59.23 vs. 56.36 units/hour) — the specific rule a capital-budgeting decision should follow whenever funds don't cover everything.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1QlcDnzJD7-dk3UwFNRWk1Z6_-rZMiOic/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag productivity">Productivity gain</span>
+      <h2>Distribution Network Optimization</h2>
+      <p>Evaluated Unified vs. Segmented cost structures across up to 4 segments and 24 weeks of demand per company — modeling that would take a spreadsheet analyst days to build by hand.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1Mwitdoyv6nGJCYuoEuN0vNn9GlcM3aow/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag decision">Decision-driving</span>
+      <h2>Voice of Customer Analysis</h2>
+      <p>Since Shipping/Delivery is the #1 complaint theme at ~27% across three different businesses, one fix (better carrier selection) could reduce complaints broadly instead of needing a bespoke fix per company.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1D8Mw7sAXxcQDM-7j06HL3uTmdh5wTZCb/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag scale">Built to scale</span>
+      <h2>Warehouse Dashboard Agent Design</h2>
+      <p>Wrote a specification that could, in principle, run the entire warehouse-dashboard workflow autonomously every month going forward — not a single analysis, a recurring process.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1AZkaBbD7oL51AfQzjKk_u_NgF8CtANLV/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag scale">Built to scale</span>
+      <h2>Demand Forecasting Accuracy</h2>
+      <p>Built a forecasting-method comparison validated on two unrelated companies — a repeatable way to choose the right method for any new product line, not a single verdict for one dataset.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/1aqWOvsOz4ILiPOxg2zxJgxSV9mTSjG53/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag productivity">Productivity gain</span>
+      <h2>The Demand-Sensing Agent</h2>
+      <p>Built a live agent connected to a real, changing Google Sheet that re-forecasts automatically as new months of data arrive — no manual re-entry between rounds.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/16eD1-SFVQ51k-jMd0vcZnXeOIu-mTYS8/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+    <li class="card">
+      <span class="tag scale">Built to scale</span>
+      <h2>Agent Orchestration</h2>
+      <p>Built and published a live, working two-agent system that already runs six different real scenarios correctly without being rebuilt — a genuine, running piece of automation, not a one-time script.</p>
+      <a class="deck" href="https://docs.google.com/presentation/d/16oH2JwrTx8CaZkYV4Qso_Mb-kzuDAoTu/edit?usp=sharing&amp;ouid=111185090574975220168&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">View Full Deck</a>
+    </li>
+  </ul>
+</div>
